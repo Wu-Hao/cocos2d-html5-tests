@@ -5,7 +5,6 @@
 
  http://www.cocos2d-x.org
 
-
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
@@ -24,42 +23,54 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-var cocos2dApp = cc.Application.extend({
-    config:document.querySelector('#cocos2d-html5')['c'],
-    ctor:function (scene) {
+
+
+/**
+ * <p>cc.Scene is a subclass of cc.Node that is used only as an abstract concept.</p>
+ *  <p>cc.Scene an cc.Node are almost identical with the difference that cc.Scene has it's
+ * anchor point (by default) at the center of the screen.</p>
+ *
+ * <p>For the moment cc.Scene has no other logic than that, but in future releases it might have
+ * additional logic.</p>
+ *
+ * <p>It is a good practice to use and cc.Scene as the parent of all your nodes.</p>
+ * @class
+ * @extends cc.Node
+ */
+cc.Scene = cc.Node.extend(/** @lends cc.Scene# */{
+    /**
+     * Constructor
+     */
+    ctor:function () {
         this._super();
-        this.startScene = scene;
-        cc.COCOS2D_DEBUG = this.config['COCOS2D_DEBUG'];
-        cc.initDebugSetting();
-        cc.setup(this.config['tag']);
-        cc.AudioEngine.getInstance().init("mp3,ogg");
-        cc.Loader.getInstance().onloading = function () {
-            cc.LoaderScene.getInstance().draw();
-        };
-        cc.Loader.getInstance().onload = function () {
-            cc.AppController.shareAppController().didFinishLaunchingWithOptions();
-        };
-        cc.Loader.getInstance().preload(g_ressources);
+        /*this._ignoreAnchorPointForPosition = true;
+        this.setAnchorPoint(cc.p(0.5, 0.5));
+        this.setContentSize(cc.Director.getInstance().getWinSize());*/
     },
-    applicationDidFinishLaunching:function () {
-        // initialize director
-        var director = cc.Director.getInstance();
 
-        // enable High Resource Mode(2x, such as iphone4) and maintains low resource on other devices.
-//     director->enableRetinaDisplay(true);
-
-        // turn on display FPS
-        director.setDisplayStats(this.config['showFPS']);
-
-        // set FPS. the default value is 1.0/60 if you don't call this
-        director.setAnimationInterval(1.0 / this.config['frameRate']);
-
-        // create a scene. it's an autorelease object
-
-        // run
-        director.runWithScene(new this.startScene());
-
+    /**
+     * Initialize
+     * @return {Boolean}
+     */
+    init:function () {
+        this._super();
+        this._ignoreAnchorPointForPosition = true;
+        this.setAnchorPoint(cc.p(0.5, 0.5));
+        this.setContentSize(cc.Director.getInstance().getWinSize());
         return true;
     }
 });
-var myApp = new cocos2dApp(WaterMelonScene);
+/**
+ * creates a scene
+ * @return {cc.Scene}
+ * @example
+ * // Example
+ * var aScene = cc.Scene.create();
+ * //OR
+ * var aScene = new cc.Scene();
+ */
+cc.Scene.create = function () {
+    var scene = new cc.Scene();
+    scene.init();
+    return scene;
+};
