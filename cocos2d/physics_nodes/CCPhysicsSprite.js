@@ -108,7 +108,10 @@
             //this._syncPosition();
         },
         _syncPosition:function () {
-            this._position = {x:this._body.p.x, y:this._body.p.y};
+            if(this._position.x != this._body.p.x && this._position.y != this._body.p.y){
+                this._position = {x:this._body.p.x, y:this._body.p.y};
+                this.setNodeDirty();
+            }
         },
         getRotation:function () {
             return this._ignoreBodyRotation ? cc.RADIANS_TO_DEGREES(this._rotationRadians) : -cc.RADIANS_TO_DEGREES(this._body.a)
@@ -123,7 +126,10 @@
             }
         },
         _syncRotation:function () {
-            this._rotationRadians = -this._body.a;
+            if(this._rotationRadians != -this._body.a){
+                this._rotationRadians = -this._body.a;
+                this.setNodeDirty();
+            }
         },
         visit:function (ctx) {
             if (this._body) {

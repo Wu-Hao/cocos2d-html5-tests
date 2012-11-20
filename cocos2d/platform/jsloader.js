@@ -146,7 +146,7 @@
     }
     else {
         if(c.box2d || c.chipmunk){
-            engine.push('draw_nodes/CCDrawNode.js');
+            engine.push('Draw_Nodes/CCDrawNode.js');
             engine.push('physics_nodes/CCPhysicsSprite.js');
             engine.push('physics_nodes/CCPhysicsDebugNode.js');
             if (c.box2d)
